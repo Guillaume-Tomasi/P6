@@ -2,6 +2,7 @@ const express = require('express');
 const mongoose = require('mongoose');
 const path = require('path');
 const dotenv = require('dotenv').config();
+const helmet = require('helmet');
 
 const saucesRoutes = require('./routes/sauces')
 const userRoutes = require('./routes/user');
@@ -18,6 +19,7 @@ mongoose.connect(process.env.DB_CONNECT,
     .then(() => console.log('Connexion à MongoDB réussie !'))
     .catch(() => console.log('Connexion à MongoDB échouée !'));
 
+app.use(helmet());
 
 
 app.use((req, res, next) => {
