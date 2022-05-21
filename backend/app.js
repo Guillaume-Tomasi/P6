@@ -18,8 +18,17 @@ mongoose.connect(process.env.DB_CONNECT,
     })
     .then(() => console.log('Connexion à MongoDB réussie !'))
     .catch(() => console.log('Connexion à MongoDB échouée !'));
+;
 
-app.use(helmet());
+
+
+app.use(helmet.contentSecurityPolicy({
+    directives: {
+        frameAncestors: ["'none'"],
+    }
+})
+);
+
 
 
 app.use((req, res, next) => {
