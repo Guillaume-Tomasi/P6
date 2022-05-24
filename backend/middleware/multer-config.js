@@ -6,6 +6,7 @@ const MIME_TYPES = {
     'image/png': 'png'
 };
 
+
 const storage = multer.diskStorage({
     destination: (req, file, callback) => {
         callback(null, 'images');
@@ -14,7 +15,19 @@ const storage = multer.diskStorage({
         const name = file.originalname.split(' ').join('_');
         const extension = MIME_TYPES[file.mimetype];
         callback(null, name + Date.now() + '.' + extension);
-    }
+    },
+
 });
 
-module.exports = multer({ storage: storage }).single('image');
+
+
+module.exports = multer({
+    storage: storage,
+    fileFilter: (req, file, callback) => {
+        const extension = MIME_TYPES[file.mimetype];
+        if (extension !== 'jpg' && extension !== 'png') {
+            return callback(new Error("Format d'image invalide !"))
+        }
+        callback(null, true)
+    }
+}).single('image');

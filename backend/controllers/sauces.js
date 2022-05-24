@@ -1,8 +1,9 @@
 const Sauce = require('../models/Sauce');
 const fs = require('fs');
 const jwt = require("jsonwebtoken");
-const { Error } = require('mongoose');
 
+
+// Création sauce
 
 exports.createSauce = (req, res, next) => {
     const sauceObject = JSON.parse(req.body.sauce);
@@ -16,6 +17,7 @@ exports.createSauce = (req, res, next) => {
         .catch(error => res.status(400).json({ error }));
 };
 
+// Modification sauce
 
 exports.modifySauce = (req, res, next) => {
     Sauce.findOne({ _id: req.params.id })
@@ -41,6 +43,8 @@ exports.modifySauce = (req, res, next) => {
             }
         })
 };
+
+// Suppression sauce
 
 exports.deleteSauce = (req, res, next) => {
     Sauce.findOne({ _id: req.params.id })
@@ -68,11 +72,15 @@ exports.deleteSauce = (req, res, next) => {
 
 };
 
+// Récupération d'une sauce
+
 exports.getOneSauce = (req, res, next) => {
     Sauce.findOne({ _id: req.params.id })
         .then(sauce => res.status(200).json(sauce))
         .catch(error => res.status(404).json({ error }));
 };
+
+// Récupération de toutes les sauces
 
 exports.getAllSauces = (req, res, next) => {
     Sauce.find()
@@ -80,6 +88,7 @@ exports.getAllSauces = (req, res, next) => {
         .catch(error => res.status(400).json({ error }));
 };
 
+// Gestion des likes/dislikes
 
 exports.likeSauce = (req, res, next) => {
     if (req.body.like === 1) {
@@ -134,5 +143,3 @@ exports.likeSauce = (req, res, next) => {
             .catch((error) => res.status(400).json({ error }));
     }
 }
-
-
