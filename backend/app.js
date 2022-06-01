@@ -3,6 +3,7 @@ const mongoose = require('mongoose');
 const path = require('path');
 const dotenv = require('dotenv').config();
 const helmet = require('helmet');
+const fs = require('fs');
 
 const saucesRoutes = require('./routes/sauces')
 const userRoutes = require('./routes/user');
@@ -34,6 +35,24 @@ app.use((req, res, next) => {
     res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, PATCH, OPTIONS');
     res.setHeader('Cross-Origin-Resource-Policy', 'same-site');
     next();
+});
+
+// Création du dossier "images" 
+
+const dir = './images';
+
+fs.access(dir, (error) => {
+    if (error) {
+        fs.mkdir(dir, (error) => {
+            if (error) {
+                console.log(error);
+            } else {
+                console.log('Dossier "images" créé !');
+            }
+        });
+    } else {
+        console.log('Dossier "images" présent !');
+    }
 });
 
 
